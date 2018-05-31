@@ -37,9 +37,9 @@
 
             setActive(on) {
                 if (on) {
-                    this.classList.add('active');
+                    this.setAttribute('active', true);
                 } else {
-                    this.classList.remove('active');
+                    this.removeAttribute('active');
                 }
                 
             }
@@ -76,7 +76,7 @@
                         box-shadow: 0 0 3px #0070D2;
                     }
 
-                    :host(.active) {
+                    :host([active]) {
                         background-color: #eef1f6;
                     }
 
