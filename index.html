@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>VUE!!!</title>
+    <link rel="stylesheet" href="salesforce-lightning-design-system.min.css">
 </head>
 <body>
-    <div id="app">
-        <button>hi</button>
+    <div class="slds-m-around_large" id="app">
+        <button class="slds-button slds-button_neutral" id="realbutton">hi</button>
     </div>
     <script>
         class FakeButton extends HTMLElement {
@@ -47,23 +48,41 @@
                 shadowRoot.innerHTML = `
                 <style>
                     :host { 
-                        display: inline-block; 
-                        border: 1px solid red; 
-                        width: auto; 
-                        padding: 5px;
+                        display: inline-block;
+                        border: 1px solid transparent;
+                        border-radius: 0.25rem;
+                        line-height: 1.875rem;
+                        background: transparent;
+                        white-space: normal;
+                        padding-left: 1rem;
+                        padding-right: 1rem;
+                        text-align: center;
+                        vertical-align: middle;
+                        border: 1px solid #dddbda;
+                        transition: border 0.15s linear;
+                        border-color: #dddbda;
+                        background-color: white;
+                        
                     }
 
                     :host(:hover) {
-                        background: red;
                         cursor: pointer;
+                        background-color: #f4f6f9;
+                    }
+
+                    :host(:focus) {
+                        background-color: #f4f6f9;
+                        outline: 0;
+                        box-shadow: 0 0 3px #0070D2;
                     }
 
                     :host(.active) {
-                        background: blue;
+                        background-color: #eef1f6;
                     }
 
                     ::slotted(*) {
-                        font-weight: bold;
+                        font-family: "Salesforce Sans", Arial, sans-serif;
+                        color: #0070d2;
                     }
                 </style>
                 <slot></slot>
@@ -73,6 +92,13 @@
                 this.addEventListener('click', this.handleClick);
                 this.addEventListener('keyup', this.handleKey);
                 this.addEventListener('keydown', this.handleKeydown);
+                this.addEventListener('mousedown', ()=> {
+                    this.setActive(true);
+                });
+                this.addEventListener('mouseup', ()=> {
+                    this.setActive(false);
+                });
+
             }
         }
         window.customElements.define('fake-button', FakeButton);
@@ -81,6 +107,9 @@
         content.textContent = 'Hello!';
         fakeButton.appendChild(content);
         document.getElementById('app').appendChild(fakeButton);
+        document.getElementById('realbutton').addEventListener('click', () => {
+            alert('clicked');
+        })
     </script>
 </body>
 </html>
