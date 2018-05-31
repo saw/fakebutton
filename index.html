@@ -9,7 +9,8 @@
 </head>
 <body>
     <div class="slds-m-around_large" id="app">
-        <button class="slds-button slds-button_neutral" id="realbutton">hi</button>
+        <button class="slds-button slds-button_neutral" id="realbutton"><span>This is a real button</span></button>
+        <fake-button><span>This button is actually a web component</span></fake-button>
     </div>
     <script>
         class FakeButton extends HTMLElement {
@@ -102,11 +103,7 @@
             }
         }
         window.customElements.define('fake-button', FakeButton);
-        const fakeButton = document.createElement('fake-button');
-        const content = document.createElement('span');
-        content.textContent = 'Hello!';
-        fakeButton.appendChild(content);
-        document.getElementById('app').appendChild(fakeButton);
+        
         document.getElementById('realbutton').addEventListener('click', () => {
             alert('clicked');
         })
