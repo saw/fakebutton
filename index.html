@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VUE!!!</title>
+</head>
+<body>
+    <div id="app">
+        <button>hi</button>
+    </div>
+    <script>
+        class FakeButton extends HTMLElement {
+
+            handleClick(e) {
+                alert('clicked');
+            }
+
+            handleKeydown(e) {
+                if(e.keyCode === 32 || e.keyCode === 13) {
+                    this.setActive(true);
+                }
+            }
+
+            handleKey(e) {
+                if(e.keyCode === 32 || e.keyCode === 13) {
+                    this.setActive(false);
+                    setTimeout(() => {
+                        this.handleClick(e);
+                    },0)
+                    
+                }
+            }
+
+            setActive(on) {
+                if (on) {
+                    this.classList.add('active');
+                } else {
+                    this.classList.remove('active');
+                }
+                
+            }
+
+            connectedCallback() {
+                const shadowRoot = this.attachShadow({mode: 'open'});
+                shadowRoot.innerHTML = `
+                <style>
+                    :host { 
+                        display: inline-block; 
+                        border: 1px solid red; 
+                        width: auto; 
+                        padding: 5px;
+                    }
+
+                    :host(:hover) {
+                        background: red;
+                        cursor: pointer;
+                    }
+
+                    :host(.active) {
+                        background: blue;
+                    }
+
+                    ::slotted(*) {
+                        font-weight: bold;
+                    }
+                </style>
+                `;
+                shadowRoot.appendChild(document.createElement('slot'));
+                this.setAttribute('role', 'button');
+                this.setAttribute('tabindex', 0);
+                this.addEventListener('click', this.handleClick);
+                this.addEventListener('keyup', this.handleKey);
+                this.addEventListener('keydown', this.handleKeydown);
+            }
+        }
+        window.customElements.define('fake-button', FakeButton);
+        const fakeButton = document.createElement('fake-button');
+        const content = document.createElement('span');
+        content.textContent = 'Hello!';
+        fakeButton.appendChild(content);
+        document.getElementById('app').appendChild(fakeButton);
+    </script>
+</body>
+</html>
